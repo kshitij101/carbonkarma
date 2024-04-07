@@ -24,7 +24,10 @@ const DateRangePicker = () => {
             const totalDistance = getUserData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString());
             console.log(totalDistance)
             // const totalDistance = getTotalDistanceByTypeAndDate('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString());
-            console.log(getUserData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
+            // console.log(getUserData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
+            
+            console.log(generateRandomData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
+            
             updateAnalyticsData(totalDistance);
         }
     };
