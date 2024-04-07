@@ -1,6 +1,11 @@
 {
   "name": "carbonkarma",
   "version": "0.1.0",
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "private": true,
   "dependencies": {
     "@propelauth/react": "^2.0.19",
