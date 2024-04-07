@@ -1,5 +1,493 @@
 const axios=require('axios');
 
+
+const datajson = {
+    "bankerprem3@gmail.com": {
+        "2/28/2024": {
+            "type": "public_transport",
+            "distance": 25,
+            "emission": 15,
+            "date": "2/28/2024"
+        },
+        "2/29/2024": {
+            "type": "cycling",
+            "distance": 7,
+            "emission": 1,
+            "date": "2/29/2024"
+        },
+        "3/1/2024": {
+            "type": "public_transport",
+            "distance": 21,
+            "emission": 12.6,
+            "date": "3/1/2024"
+        },
+        "3/2/2024": {
+            "type": "public_transport",
+            "distance": 12,
+            "emission": 7.199999999999999,
+            "date": "3/2/2024"
+        },
+        "3/3/2024": {
+            "type": "vehicle",
+            "distance": 9,
+            "emission": 1.8,
+            "date": "3/3/2024"
+        },
+        "3/4/2024": {
+            "type": "cycling",
+            "distance": 20,
+            "emission": 1,
+            "date": "3/4/2024"
+        },
+        "3/5/2024": {
+            "type": "vehicle",
+            "distance": 22,
+            "emission": 4.4,
+            "date": "3/5/2024"
+        },
+        "3/6/2024": {
+            "type": "walking",
+            "distance": 8,
+            "emission": 1,
+            "date": "3/6/2024"
+        },
+        "3/7/2024": {
+            "type": "vehicle",
+            "distance": 9,
+            "emission": 1.8,
+            "date": "3/7/2024"
+        },
+        "3/8/2024": {
+            "type": "vehicle",
+            "distance": 12,
+            "emission": 2.4000000000000004,
+            "date": "3/8/2024"
+        },
+        "3/9/2024": {
+            "type": "public_transport",
+            "distance": 20,
+            "emission": 12,
+            "date": "3/9/2024"
+        },
+        "3/10/2024": {
+            "type": "vehicle",
+            "distance": 30,
+            "emission": 6,
+            "date": "3/10/2024"
+        },
+        "3/11/2024": {
+            "type": "public_transport",
+            "distance": 16,
+            "emission": 9.6,
+            "date": "3/11/2024"
+        },
+        "3/12/2024": {
+            "type": "cycling",
+            "distance": 19,
+            "emission": 1,
+            "date": "3/12/2024"
+        },
+        "3/13/2024": {
+            "type": "vehicle",
+            "distance": 10,
+            "emission": 2,
+            "date": "3/13/2024"
+        },
+        "3/14/2024": {
+            "type": "cycling",
+            "distance": 17,
+            "emission": 1,
+            "date": "3/14/2024"
+        },
+        "3/15/2024": {
+            "type": "cycling",
+            "distance": 14,
+            "emission": 1,
+            "date": "3/15/2024"
+        },
+        "3/16/2024": {
+            "type": "public_transport",
+            "distance": 19,
+            "emission": 11.4,
+            "date": "3/16/2024"
+        },
+        "3/17/2024": {
+            "type": "public_transport",
+            "distance": 13,
+            "emission": 7.8,
+            "date": "3/17/2024"
+        },
+        "3/18/2024": {
+            "type": "walking",
+            "distance": 9,
+            "emission": 1,
+            "date": "3/18/2024"
+        },
+        "3/19/2024": {
+            "type": "cycling",
+            "distance": 16,
+            "emission": 1,
+            "date": "3/19/2024"
+        },
+        "3/20/2024": {
+            "type": "flight",
+            "distance": 1666,
+            "emission": 49.98,
+            "date": "3/20/2024"
+        },
+        "3/21/2024": {
+            "type": "public_transport",
+            "distance": 15,
+            "emission": 9,
+            "date": "3/21/2024"
+        },
+        "3/22/2024": {
+            "type": "public_transport",
+            "distance": 15,
+            "emission": 9,
+            "date": "3/22/2024"
+        },
+        "3/23/2024": {
+            "type": "walking",
+            "distance": 10,
+            "emission": 1,
+            "date": "3/23/2024"
+        },
+        "3/24/2024": {
+            "type": "public_transport",
+            "distance": 25,
+            "emission": 15,
+            "date": "3/24/2024"
+        },
+        "3/25/2024": {
+            "type": "public_transport",
+            "distance": 19,
+            "emission": 11.4,
+            "date": "3/25/2024"
+        },
+        "3/26/2024": {
+            "type": "walking",
+            "distance": 7,
+            "emission": 1,
+            "date": "3/26/2024"
+        },
+        "3/27/2024": {
+            "type": "vehicle",
+            "distance": 16,
+            "emission": 3.2,
+            "date": "3/27/2024"
+        },
+        "3/28/2024": {
+            "type": "public_transport",
+            "distance": 23,
+            "emission": 13.799999999999999,
+            "date": "3/28/2024"
+        },
+        "3/29/2024": {
+            "type": "flight",
+            "distance": 2350,
+            "emission": 70.5,
+            "date": "3/29/2024"
+        },
+        "3/30/2024": {
+            "type": "walking",
+            "distance": 8,
+            "emission": 1,
+            "date": "3/30/2024"
+        },
+        "3/31/2024": {
+            "type": "walking",
+            "distance": 4,
+            "emission": 1,
+            "date": "3/31/2024"
+        },
+        "4/1/2024": {
+            "type": "public_transport",
+            "distance": 17,
+            "emission": 10.2,
+            "date": "4/1/2024"
+        },
+        "4/2/2024": {
+            "type": "walking",
+            "distance": 6,
+            "emission": 1,
+            "date": "4/2/2024"
+        },
+        "4/3/2024": {
+            "type": "public_transport",
+            "distance": 12,
+            "emission": 7.199999999999999,
+            "date": "4/3/2024"
+        },
+        "4/4/2024": {
+            "type": "cycling",
+            "distance": 8,
+            "emission": 1,
+            "date": "4/4/2024"
+        },
+        "4/5/2024": {
+            "type": "public_transport",
+            "distance": 15,
+            "emission": 9,
+            "date": "4/5/2024"
+        },
+        "4/6/2024": {
+            "type": "vehicle",
+            "distance": 20,
+            "emission": 4,
+            "date": "4/6/2024"
+        },
+        "4/7/2024": {
+            "type": "walking",
+            "distance": 3,
+            "emission": 1,
+            "date": "4/7/2024"
+        }
+    },
+    "anikethirpara@vt.edu": {
+        "2/28/2024": {
+            "type": "cycling",
+            "distance": 13,
+            "emission": 1,
+            "date": "2/28/2024"
+        },
+        "2/29/2024": {
+            "type": "vehicle",
+            "distance": 14,
+            "emission": 2.8000000000000003,
+            "date": "2/29/2024"
+        },
+        "3/1/2024": {
+            "type": "cycling",
+            "distance": 7,
+            "emission": 1,
+            "date": "3/1/2024"
+        },
+        "3/2/2024": {
+            "type": "cycling",
+            "distance": 16,
+            "emission": 1,
+            "date": "3/2/2024"
+        },
+        "3/3/2024": {
+            "type": "cycling",
+            "distance": 14,
+            "emission": 1,
+            "date": "3/3/2024"
+        },
+        "3/4/2024": {
+            "type": "vehicle",
+            "distance": 25,
+            "emission": 5,
+            "date": "3/4/2024"
+        },
+        "3/5/2024": {
+            "type": "public_transport",
+            "distance": 14,
+            "emission": 8.4,
+            "date": "3/5/2024"
+        },
+        "3/6/2024": {
+            "type": "public_transport",
+            "distance": 24,
+            "emission": 14.399999999999999,
+            "date": "3/6/2024"
+        },
+        "3/7/2024": {
+            "type": "public_transport",
+            "distance": 20,
+            "emission": 12,
+            "date": "3/7/2024"
+        },
+        "3/8/2024": {
+            "type": "vehicle",
+            "distance": 29,
+            "emission": 5.800000000000001,
+            "date": "3/8/2024"
+        },
+        "3/9/2024": {
+            "type": "walking",
+            "distance": 7,
+            "emission": 1,
+            "date": "3/9/2024"
+        },
+        "3/10/2024": {
+            "type": "public_transport",
+            "distance": 22,
+            "emission": 13.2,
+            "date": "3/10/2024"
+        },
+        "3/11/2024": {
+            "type": "vehicle",
+            "distance": 26,
+            "emission": 5.2,
+            "date": "3/11/2024"
+        },
+        "3/12/2024": {
+            "type": "walking",
+            "distance": 2,
+            "emission": 1,
+            "date": "3/12/2024"
+        },
+        "3/13/2024": {
+            "type": "vehicle",
+            "distance": 15,
+            "emission": 3,
+            "date": "3/13/2024"
+        },
+        "3/14/2024": {
+            "type": "walking",
+            "distance": 2,
+            "emission": 1,
+            "date": "3/14/2024"
+        },
+        "3/15/2024": {
+            "type": "public_transport",
+            "distance": 16,
+            "emission": 9.6,
+            "date": "3/15/2024"
+        },
+        "3/16/2024": {
+            "type": "cycling",
+            "distance": 8,
+            "emission": 1,
+            "date": "3/16/2024"
+        },
+        "3/17/2024": {
+            "type": "vehicle",
+            "distance": 26,
+            "emission": 5.2,
+            "date": "3/17/2024"
+        },
+        "3/18/2024": {
+            "type": "vehicle",
+            "distance": 29,
+            "emission": 5.800000000000001,
+            "date": "3/18/2024"
+        },
+        "3/19/2024": {
+            "type": "cycling",
+            "distance": 17,
+            "emission": 1,
+            "date": "3/19/2024"
+        },
+        "3/20/2024": {
+            "type": "cycling",
+            "distance": 16,
+            "emission": 1,
+            "date": "3/20/2024"
+        },
+        "3/21/2024": {
+            "type": "vehicle",
+            "distance": 10,
+            "emission": 2,
+            "date": "3/21/2024"
+        },
+        "3/22/2024": {
+            "type": "cycling",
+            "distance": 17,
+            "emission": 1,
+            "date": "3/22/2024"
+        },
+        "3/23/2024": {
+            "type": "public_transport",
+            "distance": 24,
+            "emission": 14.399999999999999,
+            "date": "3/23/2024"
+        },
+        "3/24/2024": {
+            "type": "public_transport",
+            "distance": 25,
+            "emission": 15,
+            "date": "3/24/2024"
+        },
+        "3/25/2024": {
+            "type": "public_transport",
+            "distance": 17,
+            "emission": 10.2,
+            "date": "3/25/2024"
+        },
+        "3/26/2024": {
+            "type": "vehicle",
+            "distance": 24,
+            "emission": 4.800000000000001,
+            "date": "3/26/2024"
+        },
+        "3/27/2024": {
+            "type": "public_transport",
+            "distance": 10,
+            "emission": 6,
+            "date": "3/27/2024"
+        },
+        "3/28/2024": {
+            "type": "public_transport",
+            "distance": 25,
+            "emission": 15,
+            "date": "3/28/2024"
+        },
+        "3/29/2024": {
+            "type": "public_transport",
+            "distance": 17,
+            "emission": 10.2,
+            "date": "3/29/2024"
+        },
+        "3/30/2024": {
+            "type": "public_transport",
+            "distance": 16,
+            "emission": 9.6,
+            "date": "3/30/2024"
+        },
+        "3/31/2024": {
+            "type": "cycling",
+            "distance": 16,
+            "emission": 1,
+            "date": "3/31/2024"
+        },
+        "4/1/2024": {
+            "type": "walking",
+            "distance": 4,
+            "emission": 1,
+            "date": "4/1/2024"
+        },
+        "4/2/2024": {
+            "type": "public_transport",
+            "distance": 16,
+            "emission": 9.6,
+            "date": "4/2/2024"
+        },
+        "4/3/2024": {
+            "type": "cycling",
+            "distance": 19,
+            "emission": 1,
+            "date": "4/3/2024"
+        },
+        "4/4/2024": {
+            "type": "vehicle",
+            "distance": 24,
+            "emission": 4.800000000000001,
+            "date": "4/4/2024"
+        },
+        "4/5/2024": {
+            "type": "public_transport",
+            "distance": 23,
+            "emission": 13.799999999999999,
+            "date": "4/5/2024"
+        },
+        "4/6/2024": {
+            "type": "walking",
+            "distance": 6,
+            "emission": 1,
+            "date": "4/6/2024"
+        },
+        "4/7/2024": {
+            "type": "vehicle",
+            "distance": 12,
+            "emission": 2.4000000000000004,
+            "date": "4/7/2024"
+        }
+    }
+}
+
 export const getTotalDistanceByTypeAndDate = (email, fromDate, toDate) => {
     let totalDistanceByType = {};
     const jsonData = JSON.parse(localStorage.getItem("data")) || {};
@@ -289,6 +777,101 @@ function calculateScore(obj) {
     }
 }
 
+
+export const getUserData = (email, startDate, endDate) => {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+        dateArray.push(new Date(currentDate).toLocaleDateString('en-US'));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    let persondata = datajson[email]
+    const specificdays = {}
+    for (const day of dateArray) {
+        specificdays[day] = persondata[day]
+    }
+
+    return specificdays;
+}
+
+export const generateRandomData = (email, startDate, endDate) => {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+        dateArray.push(new Date(currentDate).toLocaleDateString('en-US'));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    const enumArray = [
+        'public_transport', 'public_transport', 'public_transport', 'public_transport', 'public_transport',
+        'cycling', 'cycling', 'cycling',
+        'walking', 'walking',
+        'vehicle', 'vehicle', 'vehicle',
+        'flight'
+    ];
+
+
+
+    const personData = {};
+
+    const emails = ['bankerprem3@gmail.com', 'anikethirpara@vt.edu']
+    for (const email of emails) {
+        // Perform some action for each element
+        
+        const transportData = {};
+
+        dateArray.forEach(day => {
+        const randomIndex = Math.floor(Math.random() * enumArray.length);
+        const transportType = enumArray[randomIndex];
+        let distance;
+        let emission;
+
+        switch (transportType) {
+            case 'public_transport':
+                distance = Math.floor(Math.random() * (25 - 10 + 1)) + 10;
+                emission = distance * 0.6
+                break;
+            case 'cycling':
+                distance = Math.floor(Math.random() * (20 - 7 + 1)) + 7;
+                emission = 1
+                break;
+            case 'walking':
+                distance = Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+                emission = 1
+                break;
+            case 'vehicle':
+                distance = Math.floor(Math.random() * (30 - 8 + 1)) + 8;
+                emission = distance * 0.2
+                break;
+            case 'flight':
+                distance = Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500;
+                emission = distance * 0.03
+                break;
+            default:
+                emission = 0;
+                distance = 0;
+        }
+
+        transportData[day] = { type: transportType, distance: distance, emission: emission, date: day };
+    });
+
+
+    personData[email] = transportData;
+
+    }
+
+    return personData;
+
+    
+
+    
+
+
+
+}
 
 
 async function processObjectsUnGrouped(email, fromDate, toDate) {
