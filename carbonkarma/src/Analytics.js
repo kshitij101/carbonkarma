@@ -249,6 +249,70 @@ function generateRandomObjects(numObjects) {
     return objects;
 }
 
+async function calculateCarbonEmissionAndScore(objects) {
+    for (const obj of objects) {
+        let body;
+        if (obj.type === 'vehicle') {
+            body = {
+                "type": "vehicle",
+                "distance_unit": "mi",
+                "distance_value": obj.distance_value,
+                "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
+            };
+        } else if (obj.type === 'flight') {
+            body = {
+                "type": "flight",
+                "legs": [{
+                    "departure_airport": obj.legs[0].departure_airport,
+                    "destination_airport": obj.legs[0].destination_airport
+                }]
+            };
+        }
+
+        try {
+            const response = await axios.post("https://www.carboninterface.com/api/v1/estimates", body, {
+                headers: {
+                    'Authorization': 'Bearer 3Nv9SU206leKYrVS3vcIA',
+                    'Content-Type': 'application/json'
+                }
+            });
+            const carbonEmission = response.data.data.attributes.carbon_lb;
+            obj.carbonEmission = carbonEmission;
+
+            obj.score = calculateScore(obj);
+            
+
+            
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // TODO:
+            // CALL THE RIPPLE FUNCTION HERE ALONG AND PASS THE REQUIRED DATA
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+        } catch (error) {
+            console.error('Error occurred while fetching carbon emission:', error);
+        }
+    }
+}
+
+function calculateScore(obj) {
+    if (obj.type === 'vehicle' || obj.type === 'flight') {
+        if (obj.efficient === 1) {
+            return 0.6 * obj.carbonEmission;
+        } else {
+            return 0;
+        }
+    } else if (obj.type === 'public_transport') {
+        return 0.8 * obj.distance_value;
+    } else if (obj.type === 'cycling' || obj.type === 'walking') {
+        return obj.distance_value;
+    } else {
+        return 0; // Default value for unknown types
+    }
+}
+
 const Analytics = () => {
     return (
         <div>
