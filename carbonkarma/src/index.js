@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { AuthProvider } from "@propelauth/react";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider authUrl='https://8218204099.propelauthtest.com'>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 
