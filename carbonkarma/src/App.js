@@ -6,20 +6,20 @@ import Navigation from './Navigation'; // Import Navigation component
 import './App.css';
 
 const App = () => {
-    return (
-        <Router>
-            <div className='gradient-background'>
-              <div className='container'>
-              <Navigation /> {/* Render Navigation component */}
-                <Routes>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/analytics" component={Analytics} />
-                </Routes>
-              </div>
-                
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <div className='gradient-background'>
+        <div className='container'>
+     
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/analytics" element={<Analytics />} />
+          </Routes>
+        </div>
+
+      </div>
+    </Router>
+  );
 }
 
 export default App;

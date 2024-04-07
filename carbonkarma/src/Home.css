@@ -1,20 +1,16 @@
 .container {
     display: flex;
-    
+    justify-content: space-around; /* Align columns horizontally with space between */
+    align-items: center; /* Center items vertically */
+    height: 100vh; /* Ensure the container takes up the full viewport height */
 }
 
-.left-column {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+.left-column,
 .right-column {
-    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* Align items in columns vertically */
+    align-items: left; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
 }
 
 .circle {
@@ -27,10 +23,7 @@
 }
 
 .svg-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 20px; /* Add some margin between the circle and the SVG */
 }
 
 /* Optional: Animation for rotation */
@@ -41,4 +34,42 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+
+.home-title {
+    font-size: 70px;
+    margin-top: 38px;
+    background: linear-gradient(to right, #D2FFA5, #B0FFDE, #B3E8FF, #D3B1FF, #FFB6D5, #FFB5B5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.home-subtitle {
+    font-size: 40px;
+    margin-top: 12px;
+    color: #fff;
+}
+
+
+
+.login-button {
+    margin-top: 64px;
+    width: 240px;
+    height: 48px;
+    background-color: #FB388A;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 48px; /* Center text vertically */
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #FF6090; /* Change background color on hover */
 }
