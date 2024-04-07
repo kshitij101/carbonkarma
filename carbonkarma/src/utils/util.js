@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios=require('axios');
 
 export const getTotalDistanceByTypeAndDate = (email, fromDate, toDate) => {
     let totalDistanceByType = {};
@@ -111,13 +111,13 @@ async function processObjects(email, fromDate, toDate) {
                             "distance_unit": "mi",
                             "distance_value": obj.distance_value,
                             "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
-                        }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } }) :
+                        }, { headers: { Authorization: "Bearer nEzIs1jEdKPIGAzlXHSfxQ" } }) :
                         axios.post('https://www.carboninterface.com/api/v1/estimates', {
                             "type": "flight",
                             "legs": [
                                 {"departure_airport": obj.legs[0].departure_airport, "destination_airport": obj.legs[0].destination_airport}
                             ]
-                        }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } });
+                        }, { headers: { Authorization: "Bearer nEzIs1jEdKPIGAzlXHSfxQ" } });
 
                     promises.push(promise);
                 });
@@ -256,7 +256,7 @@ async function calculateCarbonEmissionAndScore(objects) {
         try {
             const response = await axios.post("https://www.carboninterface.com/api/v1/estimates", body, {
                 headers: {
-                    'Authorization': 'Bearer 3Nv9SU206leKYrVS3vcIA',
+                    'Authorization': 'Bearer nEzIs1jEdKPIGAzlXHSfxQ',
                     'Content-Type': 'application/json'
                 }
             });
@@ -309,13 +309,13 @@ async function processObjectsUnGrouped(email, fromDate, toDate) {
                         "distance_unit": "mi",
                         "distance_value": obj.distance_value,
                         "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
-                    }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } }) :
+                    }, { headers: { Authorization: "Bearer nEzIs1jEdKPIGAzlXHSfxQ" } }) :
                     axios.post('https://www.carboninterface.com/api/v1/estimates', {
                         "type": "flight",
                         "legs": [
                             {"departure_airport": obj.legs[0].departure_airport, "destination_airport": obj.legs[0].destination_airport}
                         ]
-                    }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } });
+                    }, { headers: { Authorization: "Bearer nEzIs1jEdKPIGAzlXHSfxQ" } });
 
                 promises.push(promise);
             });
@@ -325,7 +325,13 @@ async function processObjectsUnGrouped(email, fromDate, toDate) {
             responses.forEach((response, index) => {
                 const obj = objects[index];
                 const carbonEmission = response.data.data.attributes.carbon_lb;
-                const actualEmission = obj.efficient === 1 ? carbonEmission * 0.6 : carbonEmission;
+                let actualEmission = 0 
+                if(obj.type == "vehicle" || obj.type == "flight"){
+                    actualEmission = obj.efficient === 1 ? carbonEmission * 0.6 : carbonEmission;
+                }
+                if(obj.type == "public_transport"){
+                    actualEmission = carbonEmission * 0.8;
+                }
                 obj.carbonEmission = carbonEmission;
                 obj.actualEmission = actualEmission;
             });
@@ -340,5 +346,100 @@ async function processObjectsUnGrouped(email, fromDate, toDate) {
     }
 }
 
+async function calculateUserScoreBoard() {
+    try {
+        let data = JSON.parse(localStorage.getItem("data")) || {};
+        let userRankings = {}; // Object to store user rankings based on actualEmission
+
+        // Loop through each user's data
+        for (const email in data) {
+            if (data.hasOwnProperty(email)) {
+                const objects = data[email];
+
+                // Process each object for the user
+                const promises = objects.map(obj => {
+                    if (obj.type === 'vehicle') {
+                        return () => new Promise(resolve => setTimeout(resolve, 1000)).then(() => fetch('https://www.carboninterface.com/api/v1/estimates', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer nEzIs1jEdKPIGAzlXHSfxQ'
+                            },
+                            body: JSON.stringify({
+                                "type": "vehicle",
+                                "distance_unit": "mi",
+                                "distance_value": obj.distance_value,
+                                "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
+                            })
+                        }));
+                    } else if (obj.type === 'flight') {
+                        return () => new Promise(resolve => setTimeout(resolve, 1000)).then(() => fetch('https://www.carboninterface.com/api/v1/estimates', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer nEzIs1jEdKPIGAzlXHSfxQ'
+                            },
+                            body: JSON.stringify({
+                                "type": "flight",
+                                "legs": [
+                                    {"departure_airport": obj.legs[0].departure_airport, "destination_airport": obj.legs[0].destination_airport}
+                                ]
+                            })
+                        }));
+                    }
+                });
+
+                // Wait for all API calls to complete
+                const responses = await Promise.all(promises.map(promise => promise().catch(error => console.error("Error making request:", error))));
+
+                // Process each response
+                for (let i = 0; i < responses.length; i++) {
+                    if (responses[i] !== undefined) {
+                        const response = await responses[i].json();
+                        // Rest of your code to process the response
+                    } else {
+                        console.error("Response is undefined for request at index:", i);
+                    }
+                }
+                
+                console.log("RESPONSESSSSS",responses);
+                // Process each response
+                for (let i = 0; i < responses.length; i++) {
+                    const response = await responses[i].json();
+                    const obj = objects[i];
+                    const carbonEmission = response.data.attributes.carbon_lb;
+                    let actualEmission = 0;
+                    if (obj.type === "vehicle" || obj.type === "flight") {
+                        actualEmission = obj.efficient === 1 ? carbonEmission * 0.6 : carbonEmission;
+                    }
+                    if (obj.type === "public_transport") {
+                        actualEmission = carbonEmission * 0.8;
+                    }
+                    obj.carbonEmission = carbonEmission;
+                    obj.actualEmission = actualEmission;
+
+                    // Store user ranking based on actualEmission
+                    if (!userRankings.hasOwnProperty(email)) {
+                        userRankings[email] = 0;
+                    }
+                    userRankings[email] += actualEmission;
+                }
+            }
+        }
+
+        // Convert user rankings object to array of objects for sorting
+        const sortedRankings = Object.keys(userRankings).map(email => {
+            return { email, actualEmission: userRankings[email] };
+        }).sort((a, b) => a.actualEmission - b.actualEmission);
+
+        console.log("User Rankings based on Actual Emission:");
+        console.log(sortedRankings);
+        return sortedRankings;
+
+    } catch (error) {
+        console.error("Error processing objects:", error);
+    }
+}
+
 // Export functions as needed
-export { processObjects, getEmailObjects, processObjectsUnGrouped };
+export { processObjects, getEmailObjects, processObjectsUnGrouped, calculateUserScoreBoard };
