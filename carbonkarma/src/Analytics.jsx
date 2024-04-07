@@ -22,6 +22,15 @@ const Analytics = withAuthInfo((props) => {
         }
         return totalTravel;
     }
+
+
+    function calculateTotalEmissions(data) {
+        let totalTravel = 0;
+        for (const key in data) {
+            totalTravel += data[key].emission;
+        }
+        return totalTravel;
+    }
     
     // Function to calculate total walking distance
     function calculateGreenTravel(data) {
@@ -69,37 +78,40 @@ const Analytics = withAuthInfo((props) => {
                 <div className="first-column">
                     <div className='title-text'>Welcome Back, {props.user?.firstName  }</div>
 
-                    calculateTotalGreenTravel
+
                     <div className="svg-container">
                         {/* Replace this with your SVG component */}
                         <img src={hero} alt="Logo" />
                     </div>
 
 
-                    <div className='subtitle-text'>You traveled  {calculateTotalTravel(analyticsData)} km in the selected time</div>
+                    <div className='subtitle-text'>You traveled  {calculateTotalTravel(analyticsData)} miles in the selected time</div>
 
 
                     <div className="stat-row">
                         <div className="stat-column">
                             <div>Total Travel</div>
-                            <div>{calculateTotalTravel(analyticsData)}</div>
+                            <div>{calculateTotalTravel(analyticsData)} miles</div>
                         </div>
                         <div className="stat-column2">
                             <div>Total Green Travel</div>
-                            <div>{calculateGreenTravel(analyticsData)}</div>
+                            <div>{calculateGreenTravel(analyticsData)} miles</div>
                         </div>
                     </div>
 
+
+                    <button className="submit-button" >Add credits</button>
+
                 </div>
                 <div className="second-column">
-                    <div className='graph-title'> Your Total travel </div>
+                    {/* <div className='graph-title'> Your Total travel </div> */}
 
-                    <div className='graph-subtitle'> {calculateTotalTravel(analyticsData)} </div>
-
-
-                    {/* <BarGraph data={analyticsData} /> */}
+                    <div className='graph-subtitle'> {calculateTotalEmissions(analyticsData)} </div>
 
 
+                    <BarGraph data={analyticsData} />
+
+                    <br></br>
                     <PieChart data={analyticsData} />
 
                 </div>

@@ -49,13 +49,16 @@ const PieChart = ({ data }) => {
             <Pie
                 data={pieData}
                 options={{
+                    aspectRatio: 1,
+                    size: '100%',
                     plugins: {
                         title: {
                             display: true,
                             text: 'Distribution of Modes of Transport Used',
                             font: {
-                                size: 20,
+                                size: 12,
                             },
+                            color: '#FFFFFF',
                         },
                         legend: {
                             display: true,
