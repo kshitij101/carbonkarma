@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    
+}
+
+.left-column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 10px solid transparent;
+    background: linear-gradient(to right, #D2FFA5, #B0FFDE, #B3E8FF, #D3B1FF, #FFB6D5, #FFB5B5);
+    animation: rotate 10s linear infinite;
+}
+
+.svg-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Animation for rotation */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
