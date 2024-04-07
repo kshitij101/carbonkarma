@@ -9,7 +9,8 @@ export const AnalyticsProvider = ({ children }) => {
   const [analyticsData, setAnalyticsData] = useState({
     "4/2/2024": {
       "type": "walking",
-      "distance": 0
+      "distance": 0,
+      "emission": 0,
     },
   });
 
