@@ -2,11 +2,12 @@
 import React, {useState, useContext, useEffect } from 'react';
 import { getEmailObjects, processObjectsUnGrouped, getTotalDistanceByTypeAndDate, generateRandomData, getUserData } from './utils/util'; // Import the function
 import DatePicker from 'react-datepicker';
+import { withAuthInfo } from '@propelauth/react'
 import 'react-datepicker/dist/react-datepicker.css';
 import './Datepicker.css';
 import AnalyticsContext from './context/AnalyticsContext';
 
-const DateRangePicker = () => {
+const DateRangePicker = withAuthInfo((props) => {
     const { analyticsData, updateAnalyticsData } = useContext(AnalyticsContext);
 
     const [startDate, setStartDate] = useState(null);
@@ -21,12 +22,12 @@ const DateRangePicker = () => {
             setEndDate(date);
             setShowPicker(false);
          
-            const totalDistance = getUserData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString());
+            const totalDistance = getUserData(props.user?.email, startDate.toISOString(), date.toISOString());
             console.log(totalDistance)
             // const totalDistance = getTotalDistanceByTypeAndDate('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString());
             // console.log(getUserData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
             
-            console.log(generateRandomData('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
+            console.log(generateRandomData(props.user?.email, startDate.toISOString(), date.toISOString()));
             
             updateAnalyticsData(totalDistance);
         }
@@ -71,6 +72,6 @@ const DateRangePicker = () => {
             
 
     );
-};
+});
 
 export default DateRangePicker;
