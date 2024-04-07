@@ -7,6 +7,7 @@ import './Analytics.css';
 import AnalyticsContext from './context/AnalyticsContext';
 import hero from './assets/analyticshero.svg'; // Import the SVG file
 import BarGraph from './Bargraph';
+import PieChart from './Piechart';
 
 // import './Analytics.css'; // Assuming you have a CSS file for styling
 
@@ -66,7 +67,7 @@ const Analytics = withAuthInfo((props) => {
             <DateRangePicker></DateRangePicker>
             <div className='analytics-parent'>
                 <div className="first-column">
-                    <div className='title-text'>Welcome Back, {props.user.firstName}</div>
+                    <div className='title-text'>Welcome Back, {props.user?.firstName  }</div>
 
                     calculateTotalGreenTravel
                     <div className="svg-container">
@@ -96,7 +97,10 @@ const Analytics = withAuthInfo((props) => {
                     <div className='graph-subtitle'> {calculateTotalTravel(analyticsData)} </div>
 
 
-                    <BarGraph data={analyticsData} />
+                    {/* <BarGraph data={analyticsData} /> */}
+
+
+                    <PieChart data={analyticsData} />
 
                 </div>
 
