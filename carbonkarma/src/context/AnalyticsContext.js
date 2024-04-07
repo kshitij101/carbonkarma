@@ -6,11 +6,16 @@ const AnalyticsContext = createContext();
 // Create the context provider
 export const AnalyticsProvider = ({ children }) => {
   // State or functions related to analytics
-  const [analyticsData, setAnalyticsData] = useState({'walking': 1});
+  const [analyticsData, setAnalyticsData] = useState({
+    "4/2/2024": {
+      "type": "walking",
+      "distance": 0
+    },
+  });
 
   // Define functions to update analytics data    
   const updateAnalyticsData = (data) => {
-   
+
     setAnalyticsData(data);
   };
 
@@ -21,6 +26,6 @@ export const AnalyticsProvider = ({ children }) => {
     </AnalyticsContext.Provider>
   );
 };
-   
+
 // Export the context and its consumer
 export default AnalyticsContext;

@@ -6,6 +6,7 @@ import { withAuthInfo } from '@propelauth/react'
 import './Analytics.css';
 import AnalyticsContext from './context/AnalyticsContext';
 import hero from './assets/analyticshero.svg'; // Import the SVG file
+import BarGraph from './Bargraph';
 
 // import './Analytics.css'; // Assuming you have a CSS file for styling
 
@@ -13,19 +14,47 @@ import hero from './assets/analyticshero.svg'; // Import the SVG file
 
 const Analytics = withAuthInfo((props) => {
 
-    function calculateTotalTravel(travelData) {
-        if (travelData != null)
-            return Object.values(travelData).reduce((sum, value) => sum + value, 0);
-        return 0;
-
+    function calculateTotalTravel(data) {
+        let totalTravel = 0;
+        for (const key in data) {
+            totalTravel += data[key].distance;
+        }
+        return totalTravel;
+    }
+    
+    // Function to calculate total walking distance
+    function calculateGreenTravel(data) {
+        let walkingTravel = 0;
+        for (const key in data) {
+            if (data[key].type === 'walking' || data[key].type === 'cycling' ) {
+                walkingTravel += data[key].distance;
+            }
+        }
+        return walkingTravel;
     }
 
-    function calculateTotalGreenTravel(travelData) {
-        if (travelData != null)
-            return Object.values(travelData).reduce((sum, value) => sum + value, 0);
-        return 0;
 
-    }
+    // function calculateTotalTravel(travelData) {
+    //     if (travelData != null)
+    //         return Object.values(travelData).reduce((sum, value) => sum + value, 0);
+    //     return 0;
+
+    // }
+
+
+    // function calculateTotalTravel(travelData) {
+    //     if (travelData != null)
+    //         return Object.values(travelData).reduce((sum, value) => sum + value, 0);
+    //     return 0;
+
+    // }
+
+    // function calculateTotalGreenTravel(travelData) {
+    //     if (travelData != null)
+    //         return Object.values(travelData).reduce((sum, value) => sum + value, 0);
+    //     return 0;
+
+    // }
 
 
 
@@ -56,7 +85,7 @@ const Analytics = withAuthInfo((props) => {
                         </div>
                         <div className="stat-column2">
                             <div>Total Green Travel</div>
-                            <div>{calculateTotalGreenTravel(analyticsData)}</div>
+                            <div>{calculateGreenTravel(analyticsData)}</div>
                         </div>
                     </div>
 
@@ -64,7 +93,10 @@ const Analytics = withAuthInfo((props) => {
                 <div className="second-column">
                     <div className='graph-title'> Your Total travel </div>
 
-                    <div className='graph-subtitle'> Your Total travel </div>
+                    <div className='graph-subtitle'> {calculateTotalTravel(analyticsData)} </div>
+
+
+                    <BarGraph data={analyticsData} />
 
                 </div>
 

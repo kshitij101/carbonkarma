@@ -1,5 +1,334 @@
 const axios = require('axios');
 
+
+const datajson = {
+    "bankerprem3@gmail.com": {
+        "2/28/2024": {
+            "type": "vehicle",
+            "distance": 29
+        },
+        "2/29/2024": {
+            "type": "vehicle",
+            "distance": 9
+        },
+        "3/1/2024": {
+            "type": "public_transport",
+            "distance": 21
+        },
+        "3/2/2024": {
+            "type": "cycling",
+            "distance": 12
+        },
+        "3/3/2024": {
+            "type": "cycling",
+            "distance": 7
+        },
+        "3/4/2024": {
+            "type": "vehicle",
+            "distance": 11
+        },
+        "3/5/2024": {
+            "type": "cycling",
+            "distance": 10
+        },
+        "3/6/2024": {
+            "type": "cycling",
+            "distance": 19
+        },
+        "3/7/2024": {
+            "type": "walking",
+            "distance": 6
+        },
+        "3/8/2024": {
+            "type": "cycling",
+            "distance": 13
+        },
+        "3/9/2024": {
+            "type": "cycling",
+            "distance": 19
+        },
+        "3/10/2024": {
+            "type": "vehicle",
+            "distance": 9
+        },
+        "3/11/2024": {
+            "type": "walking",
+            "distance": 4
+        },
+        "3/12/2024": {
+            "type": "public_transport",
+            "distance": 18
+        },
+        "3/13/2024": {
+            "type": "public_transport",
+            "distance": 19
+        },
+        "3/14/2024": {
+            "type": "public_transport",
+            "distance": 13
+        },
+        "3/15/2024": {
+            "type": "public_transport",
+            "distance": 13
+        },
+        "3/16/2024": {
+            "type": "vehicle",
+            "distance": 10
+        },
+        "3/17/2024": {
+            "type": "public_transport",
+            "distance": 12
+        },
+        "3/18/2024": {
+            "type": "vehicle",
+            "distance": 22
+        },
+        "3/19/2024": {
+            "type": "cycling",
+            "distance": 17
+        },
+        "3/20/2024": {
+            "type": "public_transport",
+            "distance": 12
+        },
+        "3/21/2024": {
+            "type": "vehicle",
+            "distance": 11
+        },
+        "3/22/2024": {
+            "type": "public_transport",
+            "distance": 21
+        },
+        "3/23/2024": {
+            "type": "public_transport",
+            "distance": 25
+        },
+        "3/24/2024": {
+            "type": "cycling",
+            "distance": 20
+        },
+        "3/25/2024": {
+            "type": "cycling",
+            "distance": 11
+        },
+        "3/26/2024": {
+            "type": "cycling",
+            "distance": 20
+        },
+        "3/27/2024": {
+            "type": "public_transport",
+            "distance": 10
+        },
+        "3/28/2024": {
+            "type": "cycling",
+            "distance": 15
+        },
+        "3/29/2024": {
+            "type": "vehicle",
+            "distance": 21
+        },
+        "3/30/2024": {
+            "type": "flight",
+            "distance": 1672
+        },
+        "3/31/2024": {
+            "type": "public_transport",
+            "distance": 22
+        },
+        "4/1/2024": {
+            "type": "public_transport",
+            "distance": 18
+        },
+        "4/2/2024": {
+            "type": "walking",
+            "distance": 9
+        },
+        "4/3/2024": {
+            "type": "public_transport",
+            "distance": 10
+        },
+        "4/4/2024": {
+            "type": "public_transport",
+            "distance": 24
+        },
+        "4/5/2024": {
+            "type": "walking",
+            "distance": 10
+        },
+        "4/6/2024": {
+            "type": "walking",
+            "distance": 8
+        },
+        "4/7/2024": {
+            "type": "cycling",
+            "distance": 7
+        }
+    },
+    "hardityathebest@gmail.com": {
+        "2/28/2024": {
+            "type": "public_transport",
+            "distance": 14
+        },
+        "2/29/2024": {
+            "type": "vehicle",
+            "distance": 18
+        },
+        "3/1/2024": {
+            "type": "walking",
+            "distance": 6
+        },
+        "3/2/2024": {
+            "type": "vehicle",
+            "distance": 11
+        },
+        "3/3/2024": {
+            "type": "vehicle",
+            "distance": 21
+        },
+        "3/4/2024": {
+            "type": "flight",
+            "distance": 2037
+        },
+        "3/5/2024": {
+            "type": "walking",
+            "distance": 3
+        },
+        "3/6/2024": {
+            "type": "vehicle",
+            "distance": 28
+        },
+        "3/7/2024": {
+            "type": "vehicle",
+            "distance": 30
+        },
+        "3/8/2024": {
+            "type": "vehicle",
+            "distance": 15
+        },
+        "3/9/2024": {
+            "type": "vehicle",
+            "distance": 28
+        },
+        "3/10/2024": {
+            "type": "walking",
+            "distance": 5
+        },
+        "3/11/2024": {
+            "type": "flight",
+            "distance": 1668
+        },
+        "3/12/2024": {
+            "type": "public_transport",
+            "distance": 14
+        },
+        "3/13/2024": {
+            "type": "walking",
+            "distance": 6
+        },
+        "3/14/2024": {
+            "type": "flight",
+            "distance": 1833
+        },
+        "3/15/2024": {
+            "type": "cycling",
+            "distance": 11
+        },
+        "3/16/2024": {
+            "type": "walking",
+            "distance": 7
+        },
+        "3/17/2024": {
+            "type": "vehicle",
+            "distance": 11
+        },
+        "3/18/2024": {
+            "type": "walking",
+            "distance": 4
+        },
+        "3/19/2024": {
+            "type": "public_transport",
+            "distance": 11
+        },
+        "3/20/2024": {
+            "type": "cycling",
+            "distance": 15
+        },
+        "3/21/2024": {
+            "type": "walking",
+            "distance": 9
+        },
+        "3/22/2024": {
+            "type": "public_transport",
+            "distance": 19
+        },
+        "3/23/2024": {
+            "type": "cycling",
+            "distance": 14
+        },
+        "3/24/2024": {
+            "type": "flight",
+            "distance": 1846
+        },
+        "3/25/2024": {
+            "type": "cycling",
+            "distance": 7
+        },
+        "3/26/2024": {
+            "type": "flight",
+            "distance": 2237
+        },
+        "3/27/2024": {
+            "type": "cycling",
+            "distance": 14
+        },
+        "3/28/2024": {
+            "type": "flight",
+            "distance": 2316
+        },
+        "3/29/2024": {
+            "type": "public_transport",
+            "distance": 13
+        },
+        "3/30/2024": {
+            "type": "vehicle",
+            "distance": 15
+        },
+        "3/31/2024": {
+            "type": "vehicle",
+            "distance": 16
+        },
+        "4/1/2024": {
+            "type": "cycling",
+            "distance": 14
+        },
+        "4/2/2024": {
+            "type": "public_transport",
+            "distance": 18
+        },
+        "4/3/2024": {
+            "type": "vehicle",
+            "distance": 14
+        },
+        "4/4/2024": {
+            "type": "vehicle",
+            "distance": 15
+        },
+        "4/5/2024": {
+            "type": "walking",
+            "distance": 8
+        },
+        "4/6/2024": {
+            "type": "flight",
+            "distance": 2039
+        },
+        "4/7/2024": {
+            "type": "cycling",
+            "distance": 12
+        }
+    }
+}
+
+
 export const getTotalDistanceByTypeAndDate = (email, fromDate, toDate) => {
     let totalDistanceByType = {};
     const jsonData = JSON.parse(localStorage.getItem("data")) || {};
@@ -289,6 +618,94 @@ function calculateScore(obj) {
     }
 }
 
+
+export const getUserData = (email, startDate, endDate) => {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+        dateArray.push(new Date(currentDate).toLocaleDateString('en-US'));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    let persondata = datajson[email]
+    const specificdays = {}
+    for (const day of dateArray) {
+        specificdays[day] = persondata[day]
+    }
+
+    return specificdays;
+}
+
+export const generateRandomData = (email, startDate, endDate) => {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+        dateArray.push(new Date(currentDate).toLocaleDateString('en-US'));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    const enumArray = [
+        'public_transport', 'public_transport', 'public_transport', 'public_transport', 'public_transport',
+        'cycling', 'cycling', 'cycling',
+        'walking', 'walking',
+        'vehicle', 'vehicle', 'vehicle',
+        'flight'
+    ];
+
+
+
+    const personData = {};
+
+    const emails = ['bankerprem3@gmail.com', 'hardityathebest@gmail.com']
+    for (const email of emails) {
+        // Perform some action for each element
+        
+        const transportData = {};
+
+        dateArray.forEach(day => {
+        const randomIndex = Math.floor(Math.random() * enumArray.length);
+        const transportType = enumArray[randomIndex];
+        let distance;
+
+        switch (transportType) {
+            case 'public_transport':
+                distance = Math.floor(Math.random() * (25 - 10 + 1)) + 10;
+                break;
+            case 'cycling':
+                distance = Math.floor(Math.random() * (20 - 7 + 1)) + 7;
+                break;
+            case 'walking':
+                distance = Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+                break;
+            case 'vehicle':
+                distance = Math.floor(Math.random() * (30 - 8 + 1)) + 8;
+                break;
+            case 'flight':
+                distance = Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500;
+                break;
+            default:
+                distance = 0;
+        }
+
+        transportData[day] = { type: transportType, distance: distance };
+    });
+
+
+    personData[email] = transportData;
+
+    }
+
+    return personData;
+
+    
+
+    
+
+
+
+}
 
 
 async function processObjectsUnGrouped(email, fromDate, toDate) {
