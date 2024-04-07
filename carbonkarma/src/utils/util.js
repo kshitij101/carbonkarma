@@ -10,9 +10,7 @@ export const getTotalDistanceByTypeAndDate = (email, fromDate, toDate) => {
             return objDate >= new Date(fromDate) && objDate <= new Date(toDate);
         });
 
-        console.log(filteredData)
-        console.log('filteredData')
-
+    
         filteredData.forEach(obj => {
             const { type, distance_value } = obj;
             if (totalDistanceByType.hasOwnProperty(type)) {

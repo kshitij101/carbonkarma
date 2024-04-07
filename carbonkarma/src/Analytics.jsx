@@ -1,30 +1,34 @@
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { getEmailObjects, getTotalDistanceByTypeAndDate } from './utils/util'; // Import the function
+import DateRangePicker from './Datepicker';
+import { withAuthInfo } from '@propelauth/react'
+import AnalyticsContext from './context/AnalyticsContext';
+
 // import './Analytics.css'; // Assuming you have a CSS file for styling
 
 
 
-const Analytics = () => {
-    useEffect(() => {
-        // Get date 7 days ago
-        const fromDate = new Date();
-        fromDate.setDate(fromDate.getDate() - 45);
-        const toDate = new Date();
+const Analytics = withAuthInfo((props) => {
 
-        // Call getTotalDistanceByTypeAndDate with start date as 7 days ago and end day as today
-        const totalDistance = getTotalDistanceByTypeAndDate('bankerprem3@gmail.com', fromDate.toISOString(), toDate.toISOString());
-        // const emailobjects = getEmailObjects('bankerprem3@gmail.com')
-        
-        console.log(totalDistance);
-    }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+    function calculateTotalTravel(travelData) {
+        if (travelData != null)
+            return Object.values(travelData).reduce((sum, value) => sum + value, 0);
+        return 0;
+    
+        }
+
+    const { analyticsData, updateAnalyticsData } = useContext(AnalyticsContext);
+
 
     return (
         <div>
+            <DateRangePicker></DateRangePicker>
             <h2>Analytics Page</h2>
+            <p>analytics:  {calculateTotalTravel(analyticsData)} </p>
             {/* Add your analytics page content here */}
         </div>
     );
-}
+})
 
 export default Analytics;
