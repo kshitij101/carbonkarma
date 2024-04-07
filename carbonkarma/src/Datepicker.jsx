@@ -1,6 +1,6 @@
 
 import React, {useState, useContext, useEffect } from 'react';
-import { getEmailObjects, getTotalDistanceByTypeAndDate } from './utils/util'; // Import the function
+import { getEmailObjects, processObjectsUnGrouped, getTotalDistanceByTypeAndDate } from './utils/util'; // Import the function
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Datepicker.css';
@@ -13,7 +13,7 @@ const DateRangePicker = () => {
     const [endDate, setEndDate] = useState(null);
     const [showPicker, setShowPicker] = useState(false);
 
-    const handleDateChange = (date, isStartDate) => {
+    const handleDateChange = async (date, isStartDate) => {
         
         if (isStartDate) {
             setStartDate(date);
@@ -22,7 +22,7 @@ const DateRangePicker = () => {
             setShowPicker(false);
          
             const totalDistance = getTotalDistanceByTypeAndDate('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString());
-            console.log(totalDistance);
+            console.log(await processObjectsUnGrouped('bankerprem3@gmail.com', startDate.toISOString(), date.toISOString()));
             updateAnalyticsData(totalDistance);
         }
     };

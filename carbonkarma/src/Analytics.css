@@ -1,7 +1,5 @@
 .first-column {
     flex: 1;
-    padding: 20px;
-    border: 1px solid #ccc;
   }
   
   .second-column {
@@ -71,6 +69,13 @@
 
 .graph-title {
     font-size: 24px;
+    margin-top: 18px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.graph-subtitle {
+    font-size: 12px;
     margin-top: 18px;
     margin-bottom: 5px;
     color: white;

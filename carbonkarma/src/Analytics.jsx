@@ -64,6 +64,8 @@ const Analytics = withAuthInfo((props) => {
                 <div className="second-column">
                     <div className='graph-title'> Your Total travel </div>
 
+                    <div className='graph-subtitle'> Your Total travel </div>
+
                 </div>
 
             </div>
