@@ -282,7 +282,7 @@ async function calculateCarbonEmissionAndScore(objects) {
             obj.score = calculateScore(obj);
             
 
-            
+
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // TODO:
             // CALL THE RIPPLE FUNCTION HERE ALONG AND PASS THE REQUIRED DATA
@@ -311,6 +311,67 @@ function calculateScore(obj) {
     } else {
         return 0; // Default value for unknown types
     }
+}
+
+async function calculateUserScoreBoard(data) {
+    const results = [];
+
+    for (const userEmail in data) {
+        const userObjects = data[userEmail];
+        let totalScore = 0;
+
+        for (const obj of userObjects) {
+            let body;
+            if (obj.type === 'vehicle') {
+                body = {
+                    "type": "vehicle",
+                    "distance_unit": "mi",
+                    "distance_value": obj.distance_value,
+                    "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
+                };
+            } else if (obj.type === 'flight') {
+                body = {
+                    "type": "flight",
+                    "legs": [{
+                        "departure_airport": obj.legs[0].departure_airport,
+                        "destination_airport": obj.legs[0].destination_airport
+                    }]
+                };
+            }
+
+            try {
+                const response = await axios.post("https://www.carboninterface.com/api/v1/estimates", body, {
+                    headers: {
+                        Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA"
+                    }
+                });
+
+                const carbonEmission = response.data.data.attributes.carbon_lb;
+                obj.carbonEmission = carbonEmission;
+
+                let score = 0;
+
+                if (obj.type === 'vehicle' || obj.type === 'flight') {
+                    score = obj.efficient === 1 ? carbonEmission * 0.6 : 0;
+                } else if (obj.type === 'public_transport') {
+                    score = obj.distance_value * 0.8;
+                } else if (obj.type === 'cycling' || obj.type === 'walking') {
+                    score = obj.distance_value;
+                }
+
+                totalScore += score;
+            } catch (error) {
+                console.error("Error fetching carbon emission data:", error);
+            }
+        }
+
+        results.push({ userEmail, totalScore });
+    }
+
+    results.sort((a, b) => b.totalScore - a.totalScore);
+    const rankedUserEmails = results.map(result => result.userEmail);
+
+    return rankedUserEmails;
 }
 
 const Analytics = () => {
