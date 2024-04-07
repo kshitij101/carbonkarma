@@ -244,7 +244,7 @@ const datajson = {
             "date": "4/7/2024"
         }
     },
-    "hardityathebest@gmail.com": {
+    "anikethirpara@vt.edu": {
         "2/28/2024": {
             "type": "cycling",
             "distance": 13,

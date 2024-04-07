@@ -44,6 +44,11 @@ const Analytics = withAuthInfo((props) => {
     }
 
 
+    function addCredits() {
+        // TODO
+    }
+
+
     // function calculateTotalTravel(travelData) {
     //     if (travelData != null)
     //         return Object.values(travelData).reduce((sum, value) => sum + value, 0);
@@ -100,7 +105,7 @@ const Analytics = withAuthInfo((props) => {
                     </div>
 
 
-                    <button className="submit-button" >Add credits</button>
+                    <button className="submit-button" onClick={() => addCredits(true)} >Add credits</button>
 
                 </div>
                 <div className="second-column">
