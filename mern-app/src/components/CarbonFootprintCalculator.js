@@ -14,6 +14,28 @@ const CarbonFootprintCalculator = () => {
     setDistance('');
   };
 
+  const calculateExpense = (response) => {
+    let emissionValue = response.data.attributes.carbon_lb
+    // let allEmissions = [0.28,3.7,0.03,1.2,0.11,0.89];
+    let allEmissions = [1200, 800, 1500, 900];
+    let baseline_emission = 1000
+
+    // Calculate the average emission value across all users
+    const avgEmission = allEmissions.reduce((total, currentValue) => total + currentValue, 0) / allEmissions.length;
+
+    // Adjust the baseline emission value based on the average emission
+    const adjustedBaseline = baseline_emission * (avgEmission / baseline_emission);
+
+    // Calculate the deviation from the baseline emission
+    const deviation = emissionValue - adjustedBaseline;
+
+    // Map the deviation to a score using an exponential decay function
+    const score = 1000 * Math.exp(-0.1 * deviation);
+
+    console.log("SCORE",score);
+
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let requestBody;
@@ -43,7 +65,7 @@ const CarbonFootprintCalculator = () => {
           }
         }
       );
-      console.log(response.data); // You can handle the response accordingly
+      calculateExpense(response.data); // You can handle the response accordingly
     } catch (error) {
       console.error('Error:', error);
     }
