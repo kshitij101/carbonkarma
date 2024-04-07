@@ -27,7 +27,7 @@ const HomePage = withAuthInfo((props) => {
                     <div className="circle"></div>
                     <div className="home-title">Sustainance <br></br> for our Earth</div>
                     <div className="home-subtitle">By Team 23</div>
-                    <button className="login-button">Login</button>
+                    <button className="login-button" onClick={() => redirectToLoginPage()}>Login</button>
                 </div>
                 <div className="right-column">
                     <div className="svg-container">
