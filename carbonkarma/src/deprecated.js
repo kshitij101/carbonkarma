@@ -143,6 +143,53 @@ async function processObjects(email, fromDate, toDate) {
         console.error("Error processing objects:", error);
     }
 }
+async function processObjectsUnGrouped(email, fromDate, toDate) {
+    try {
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+        if (data.hasOwnProperty(email)) {
+            const objects = data[email].filter(obj => {
+                const objDate = new Date(obj.date);
+                return objDate >= new Date(fromDate) && objDate <= new Date(toDate);
+            });
+
+            const promises = [];
+            objects.forEach(obj => {
+                const promise = obj.type === 'vehicle' ?
+                    axios.post('https://www.carboninterface.com/api/v1/estimates', {
+                        "type": "vehicle",
+                        "distance_unit": "mi",
+                        "distance_value": obj.distance_value,
+                        "vehicle_model_id": "7268a9b7-17e8-4c8d-acca-57059252afe9"
+                    }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } }) :
+                    axios.post('https://www.carboninterface.com/api/v1/estimates', {
+                        "type": "flight",
+                        "legs": [
+                            {"departure_airport": obj.legs[0].departure_airport, "destination_airport": obj.legs[0].destination_airport}
+                        ]
+                    }, { headers: { Authorization: "Bearer 3Nv9SU206leKYrVS3vcIA" } });
+
+                promises.push(promise);
+            });
+
+            const responses = await Promise.all(promises);
+
+            responses.forEach((response, index) => {
+                const obj = objects[index];
+                const carbonEmission = response.data.data.attributes.carbon_lb;
+                const actualEmission = obj.efficient === 1 ? carbonEmission * 0.6 : carbonEmission;
+                obj.carbonEmission = carbonEmission;
+                obj.actualEmission = actualEmission;
+            });
+
+            console.log(objects);
+        } else {
+            console.log("Email not found in data.");
+        }
+    } catch (error) {
+        console.error("Error processing objects:", error);
+    }
+}
 
 // Helper function to get ISO week number
 function getISOWeek(date) {
