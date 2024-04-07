@@ -817,7 +817,7 @@ export const generateRandomData = (email, startDate, endDate) => {
 
     const personData = {};
 
-    const emails = ['bankerprem3@gmail.com', 'hardityathebest@gmail.com']
+    const emails = ['bankerprem3@gmail.com', 'anikethirpara@vt.edu']
     for (const email of emails) {
         // Perform some action for each element
         

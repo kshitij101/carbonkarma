@@ -44,10 +44,33 @@ const Analytics = withAuthInfo((props) => {
     }
 
 
-    function addCredits() {
-        // TODO
-    }
+    const addCredits = async (payload) => {
+        let jsonpayload = {};
+        jsonpayload[props.user?.email] = payload;
 
+        try {
+          const response = await fetch('https://server.carbonkarma.tech/api/v1/smartcontract/upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              // Add any additional headers if needed
+            },
+            body: JSON.stringify(jsonpayload),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+      
+          const data = await response.json();
+          console.log('Response:', data);
+          window.alert('Credit added successful!');
+          // Handle the response data as needed
+        } catch (error) {
+          console.error('Error:', error.message);
+          // Handle errors
+        }
+      };
 
     // function calculateTotalTravel(travelData) {
     //     if (travelData != null)
@@ -105,7 +128,7 @@ const Analytics = withAuthInfo((props) => {
                     </div>
 
 
-                    <button className="submit-button" onClick={() => addCredits(true)} >Add credits</button>
+                    <button className="submit-button" onClick={() => addCredits(analyticsData)} >Add credits</button>
 
                 </div>
                 <div className="second-column">
