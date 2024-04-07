@@ -15,24 +15,11 @@ const CarbonFootprintCalculator = () => {
   };
 
   const calculateExpense = (response) => {
-    let emissionValue = response.data.attributes.carbon_lb
-    // let allEmissions = [0.28,3.7,0.03,1.2,0.11,0.89];
-    let allEmissions = [1200, 800, 1500, 900];
-    let baseline_emission = 1000
+    let emissionAmount = response.data.attributes.carbon_lb
+    
 
-    // Calculate the average emission value across all users
-    const avgEmission = allEmissions.reduce((total, currentValue) => total + currentValue, 0) / allEmissions.length;
 
-    // Adjust the baseline emission value based on the average emission
-    const adjustedBaseline = baseline_emission * (avgEmission / baseline_emission);
-
-    // Calculate the deviation from the baseline emission
-    const deviation = emissionValue - adjustedBaseline;
-
-    // Map the deviation to a score using an exponential decay function
-    const score = 1000 * Math.exp(-0.1 * deviation);
-
-    console.log("SCORE",score);
+    console.log(emissionAmount)
 
   };
 
