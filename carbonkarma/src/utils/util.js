@@ -1,17 +1,17 @@
-import React from 'react';
-const fs = require('fs');
-const filePath = "data.json";
 const axios = require('axios');
 
-function getTotalDistanceByTypeAndDate(email, fromDate, toDate) {
+export const getTotalDistanceByTypeAndDate = (email, fromDate, toDate) => {
     let totalDistanceByType = {};
-    const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const jsonData = JSON.parse(localStorage.getItem("data")) || {};
 
     if (jsonData.hasOwnProperty(email)) {
         const filteredData = jsonData[email].filter(obj => {
             const objDate = new Date(obj.date);
             return objDate >= new Date(fromDate) && objDate <= new Date(toDate);
         });
+
+        console.log(filteredData)
+        console.log('filteredData')
 
         filteredData.forEach(obj => {
             const { type, distance_value } = obj;
@@ -26,8 +26,8 @@ function getTotalDistanceByTypeAndDate(email, fromDate, toDate) {
     return totalDistanceByType;
 }
 
-function aggregateData(email, fromDate, toDate) {
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));    
+export const aggregateData = (email, fromDate, toDate) => {
+    const data = JSON.parse(localStorage.getItem("data")) || {};
     const userEntries = data[email] || [];
     
     const filteredEntries = userEntries.filter(entry => {
@@ -64,7 +64,7 @@ function aggregateData(email, fromDate, toDate) {
 
 async function processObjects(email, fromDate, toDate) {
     try {
-        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        const data = JSON.parse(localStorage.getItem("data")) || {};
 
         if (data.hasOwnProperty(email)) {
             const objects = data[email].filter(obj => {
@@ -152,32 +152,26 @@ function getISOWeek(date) {
 }
 
 function getEmailObjects(email) {
-    // Read the JSON file
-    let data = fs.readFileSync(filePath);
-    let jsonData = JSON.parse(data);
-
-    // Check if email exists
-    if (jsonData.hasOwnProperty(email)) {
+    let data = JSON.parse(localStorage.getItem("data")) || {};
+    console.log(data);
+    if (data.hasOwnProperty(email)) {
         console.log("Email already exists in the JSON file.");
         return;
     }
 
-    // If email doesn't exist, generate random number of objects between 10 and 20
     const numObjects = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
     const objects = generateRandomObjects(numObjects);
 
-    // Append email and objects to JSON file
-    jsonData[email] = objects;
+    data[email] = objects;
 
-    // Write updated data back to the file
-    fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+    localStorage.setItem("data", JSON.stringify(data));
 
     console.log("Email added to JSON file with corresponding list of objects.");
 }
 
 function generateRandomObjects(numObjects) {
     const types = ["flight", "vehicle", "walking", "cycling", "public_transport"];
-    const dates = ["01/10/2024", "01/11/2024", "02/10/2024", "02/11/2024"];
+    const dates = ["01/10/2024", "01/11/2024", "02/10/2024", "02/11/2024", "03/11/2024", "04/05/2024"];
     const airports = ["JFK", "LAX", "ORD"];
     const airport_distances = {
         "JFK": { "JFK": 0, "LAX": 2450, "ORD": 740 },
@@ -191,11 +185,9 @@ function generateRandomObjects(numObjects) {
         const type = types[Math.floor(Math.random() * types.length)];
         let obj = { "type": type };
 
-        // Generate random date
         const randomDate = dates[Math.floor(Math.random() * dates.length)];
         obj.date = randomDate;
 
-        // Generate legs for flight type
         if (type === "flight") {
             let departure, destination;
             do {
@@ -208,29 +200,23 @@ function generateRandomObjects(numObjects) {
             obj.efficient = Math.round(Math.random());
         }
 
-        // Generate vehicle model ID for vehicle type
         if (type === "vehicle") {
             obj.vehicle_model_id = "7268a9b7-17e8-4c8d-acca-57059252afe9";
             obj.efficient = Math.round(Math.random());
-            // Ensure distance_value for vehicle type is always a natural number
             obj.distance_value = Math.floor(Math.random() * 100);
         }
 
-        // Generate distance value for cycling and walking types
         if (type === "cycling" || type === "walking") {
             obj.distance_value = Math.floor(Math.random() * 10) + 1;
         }
 
-        // Generate distance value for other types
         if (type !== "flight" && type !== "vehicle" && type !== "cycling" && type !== "walking") {
             obj.distance_value = Math.floor(Math.random() * 100);
             obj.efficient = 1;
         }
 
-        // Ensure distance_value is not negative
         obj.distance_value = Math.max(0, obj.distance_value);
 
-        // Check if date already exists for the type, if yes, generate a new date
         let dateExists = false;
         for (const o of objects) {
             if (o.type === type && o.date === obj.date) {
@@ -281,16 +267,8 @@ async function calculateCarbonEmissionAndScore(objects) {
 
             obj.score = calculateScore(obj);
             
-
-            
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // TODO:
-            // CALL THE RIPPLE FUNCTION HERE ALONG AND PASS THE REQUIRED DATA
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
+            // Call the Ripple function here and pass the required data
+            // rippleFunction(obj);
         } catch (error) {
             console.error('Error occurred while fetching carbon emission:', error);
         }
@@ -313,13 +291,5 @@ function calculateScore(obj) {
     }
 }
 
-const Analytics = () => {
-    return (
-        <div>
-            <h2>Analytics Page</h2>
-            {/* Add your analytics page content here */}
-        </div>
-    );
-}
-
-export default Analytics;
+// Export functions as needed
+export { processObjects, getEmailObjects };
